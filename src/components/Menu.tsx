@@ -1,99 +1,68 @@
 import {
+  IonButton,
   IonContent,
+  IonHeader,
   IonIcon,
   IonItem,
-  IonLabel,
-  IonList,
-  IonListHeader,
   IonMenu,
   IonMenuToggle,
-  IonNote,
+  IonPage,
+  IonRouterOutlet,
+  IonSplitPane,
+  IonTitle,
+  IonToolbar,
 } from '@ionic/react';
-
-import { useLocation } from 'react-router-dom';
-import { archiveOutline, archiveSharp, bookmarkOutline, heartOutline, heartSharp, mailOutline, mailSharp, paperPlaneOutline, paperPlaneSharp, trashOutline, trashSharp, warningOutline, warningSharp } from 'ionicons/icons';
+import { Redirect, Route } from 'react-router';
+import { homeOutline, logOutOutline } from 'ionicons/icons';
 import './Menu.css';
+import PostList from '../pages/products/list';
 
 interface AppPage {
   url: string;
-  iosIcon: string;
-  mdIcon: string;
-  title: string;
+  icon: string;
+  name: string;
 }
 
 const appPages: AppPage[] = [
-  {
-    title: 'Inbox',
-    url: '/folder/Inbox',
-    iosIcon: mailOutline,
-    mdIcon: mailSharp
-  },
-  {
-    title: 'Outbox',
-    url: '/folder/Outbox',
-    iosIcon: paperPlaneOutline,
-    mdIcon: paperPlaneSharp
-  },
-  {
-    title: 'Favorites',
-    url: '/folder/Favorites',
-    iosIcon: heartOutline,
-    mdIcon: heartSharp
-  },
-  {
-    title: 'Archived',
-    url: '/folder/Archived',
-    iosIcon: archiveOutline,
-    mdIcon: archiveSharp
-  },
-  {
-    title: 'Trash',
-    url: '/folder/Trash',
-    iosIcon: trashOutline,
-    mdIcon: trashSharp
-  },
-  {
-    title: 'Spam',
-    url: '/folder/Spam',
-    iosIcon: warningOutline,
-    mdIcon: warningSharp
-  }
+  { name: 'Products', url: '/app/products', icon: homeOutline },
 ];
-
-const labels = ['Family', 'Friends', 'Notes', 'Work', 'Travel', 'Reminders'];
-
 const Menu: React.FC = () => {
-  const location = useLocation();
-
   return (
-    <IonMenu contentId="main" type="overlay">
-      <IonContent>
-        <IonList id="inbox-list">
-          <IonListHeader>Inbox</IonListHeader>
-          <IonNote>hi@ionicframework.com</IonNote>
-          {appPages.map((appPage, index) => {
-            return (
+    <IonPage>
+      <IonSplitPane contentId="main">
+        <IonMenu contentId="main">
+          <IonHeader>
+            <IonToolbar color={'secondary'}>
+              <IonTitle>Menu</IonTitle>
+            </IonToolbar>
+          </IonHeader>
+          <IonContent>
+            {appPages.map((item, index) => (
               <IonMenuToggle key={index} autoHide={false}>
-                <IonItem className={location.pathname === appPage.url ? 'selected' : ''} routerLink={appPage.url} routerDirection="none" lines="none" detail={false}>
-                  <IonIcon aria-hidden="true" slot="start" ios={appPage.iosIcon} md={appPage.mdIcon} />
-                  <IonLabel>{appPage.title}</IonLabel>
+                <IonItem detail={true} routerLink={item.url} routerDirection="none">
+                  <IonIcon slot="start" icon={item.icon} />
+                  {item.name}
                 </IonItem>
               </IonMenuToggle>
-            );
-          })}
-        </IonList>
+            ))}
 
-        <IonList id="labels-list">
-          <IonListHeader>Labels</IonListHeader>
-          {labels.map((label, index) => (
-            <IonItem lines="none" key={index}>
-              <IonIcon aria-hidden="true" slot="start" icon={bookmarkOutline} />
-              <IonLabel>{label}</IonLabel>
-            </IonItem>
-          ))}
-        </IonList>
-      </IonContent>
-    </IonMenu>
+            <IonMenuToggle autoHide={false}>
+              <IonButton expand="full" routerLink="/" routerDirection="root">
+                <IonIcon slot="start" icon={logOutOutline} />
+                Logout
+              </IonButton>
+            </IonMenuToggle>
+          </IonContent>
+        </IonMenu>
+
+        <IonRouterOutlet id="main">
+          <Route exact path="/app/products" component={PostList} />
+          <Route exact path="/app">
+            <Redirect to="/app/products" />
+          </Route>
+        </IonRouterOutlet>
+      </IonSplitPane>
+    </IonPage>
   );
 };
 

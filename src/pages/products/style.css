@@ -1,0 +1,20 @@
+.ion-segment-scroll {
+  display: flex;
+  overflow-x: auto; /* Enable horizontal scrolling */
+  white-space: nowrap; /* Prevent text wrapping */
+  -webkit-overflow-scrolling: touch; /* Enable smooth touch scrolling */
+  scroll-snap-type: x mandatory; /* Optional: Snap scrolling for better UX */
+}
+
+.ion-segment-scroll::-webkit-scrollbar {
+  display: none; /* Hide the scrollbar */
+}
+
+.ion-segment-scroll .segment-button {
+  flex-shrink: 0; /* Prevent shrinking of buttons */
+  padding: 0 12px; /* Add padding for better spacing */
+  text-overflow: ellipsis; /* Handle long text */
+  overflow: hidden;
+  max-width: 150px; /* Optional: Limit button width */
+  scroll-snap-align: center; /* Optional: Align the active tab in the center */
+}

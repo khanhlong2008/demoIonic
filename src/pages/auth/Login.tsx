@@ -2,8 +2,8 @@ import { IonButton, IonCard, IonCardContent, IonCol, IonContent, IonFooter, IonG
 import { logInOutline, personCircleOutline } from 'ionicons/icons';
 import React, { useState } from 'react'
 import { Preferences } from '@capacitor/preferences';
-import VietBakLogo from '../assets/favicon.svg';
-import Intro from '../components/Intro';
+import VietBakLogo from '../../assets/favicon.svg';
+import Intro from '../../components/Intro';
 const INTRO_KEY = 'intro-seen';
 export const Login: React.FC = () => {
   const [introSeen, setIntroSeen] = useState(true);
