@@ -19,8 +19,6 @@ import {
   IonLabel,
   IonButtons,
   IonMenuButton,
-  IonButton,
-  IonIcon,
   IonSearchbar,
   useIonAlert,
   useIonToast,
@@ -28,18 +26,13 @@ import {
 import { useHistory } from 'react-router-dom';
 import './style.css';
 import axios from 'axios';
-import { trashBinOutline } from 'ionicons/icons';
 const ProductList: React.FC = () => {
-  const [users, setUsers] = useState<any[]>([]);
-  const [showAlert] = useIonAlert();
-  const [showToast] = useIonToast();
   const [categories, setCategories] = useState<string[]>([]);
   const [products, setProducts] = useState<any[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [loading, setLoading] = useState<boolean>(true);
   const history = useHistory();
 
-  // Fetch categories on mount
   useEffect(() => {
     const fetchCategories = async () => {
       try {
@@ -74,26 +67,6 @@ const ProductList: React.FC = () => {
 
     fetchProducts();
   }, [selectedCategory]);
-  const clearList = () => {
-    showAlert({
-      header: 'Confirm!',
-      message: 'Are you sure you want to delete all users?',
-      buttons: [
-        { text: 'Cancel', role: 'cancel' },
-        {
-          text: 'Delete',
-          handler: () => {
-            setUsers([]);
-            showToast({
-              message: 'All users deleted',
-              duration: 2000,
-              color: 'danger',
-            });
-          },
-        },
-      ],
-    });
-  };
   return (
     <IonPage>
       <IonHeader>
@@ -101,12 +74,7 @@ const ProductList: React.FC = () => {
           <IonButtons slot="start">
             <IonMenuButton />
           </IonButtons>
-          <IonTitle>Danh sách sản phẩm</IonTitle>
-          <IonButtons slot="end">
-            <IonButton onClick={clearList}>
-              <IonIcon slot="icon-only" icon={trashBinOutline} color={'light'} />
-            </IonButton>
-          </IonButtons>
+          <IonTitle>Products</IonTitle>
         </IonToolbar>
 
         <IonToolbar color={'secondary'}>
@@ -130,14 +98,12 @@ const ProductList: React.FC = () => {
           ))}
         </IonSegment>
 
-        {/* Loading */}
         {loading ? (
           <div style={{ textAlign: 'center', marginTop: '50px' }}>
             <IonSpinner name="crescent" />
-            <p>Đang tải dữ liệu...</p>
+            <p>Loading...</p>
           </div>
         ) : (
-          // Product List
           <IonGrid>
             <IonRow>
               {products.map((product) => (
@@ -148,13 +114,10 @@ const ProductList: React.FC = () => {
                   >
                     <IonImg src={product.thumbnail} alt={`Thumbnail for ${product.title}`} />
                     <IonCardHeader>
-                      <IonCardTitle>{product.title}</IonCardTitle>
+                      <IonCardTitle style={{ fontSize: '12px' }}>{product.title.substring(0, 25)}...</IonCardTitle>
                     </IonCardHeader>
                     <IonCardContent>
-                      <p>{product.description.substring(0, 50)}...</p>
-                      <p>
-                        <strong>Giá:</strong> ${product.price}
-                      </p>
+                      ${product.price}
                     </IonCardContent>
                   </IonCard>
                 </IonCol>

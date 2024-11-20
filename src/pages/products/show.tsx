@@ -38,32 +38,27 @@ const PostDetail: React.FC = () => {
 
   return (
     <IonPage>
-      {/* <IonHeader>
-        <IonToolbar>
-          <IonTitle>Chi tiết sản phẩm</IonTitle>
-        </IonToolbar>
-      </IonHeader> */}
       <IonHeader>
         <IonToolbar color={'secondary'}>
           <IonButtons slot="start">
             <IonBackButton defaultHref="/app/products" />
           </IonButtons>
-          <IonTitle>Chi tiết sản phẩm</IonTitle>
+          <IonTitle>Product Detail</IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent>
         {loading ? (
           <div style={{ textAlign: 'center', marginTop: '50px' }}>
             <IonSpinner name="crescent" />
-            <p>Đang tải dữ liệu...</p>
+            <p>Loading...</p>
           </div>
         ) : (
           product && (
             <div style={{ padding: '16px' }}>
               <IonImg src={product.thumbnail} alt={`Image of ${product.title}`} />
               <h1>{product.title}</h1>
-              <p><strong>Giá:</strong> ${product.price}</p>
-              <p><strong>Mô tả:</strong> {product.description}</p>
+              <p><strong>Price:</strong> ${product.price}</p>
+              <p><strong>Descriptions:</strong> {product.description}</p>
             </div>
           )
         )}
